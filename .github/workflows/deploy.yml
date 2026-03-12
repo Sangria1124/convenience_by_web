@@ -1,0 +1,38 @@
+name: Deploy Flet App to GitHub Pages
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flet gspread
+
+      - name: Recreate Auth Files
+        env:
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET_JSON }}
+          AUTH_USER: ${{ secrets.AUTHORIZED_USER_JSON }}
+        run: |
+          echo "$CLIENT_SECRET" > client_secret.json
+          echo "$AUTH_USER" > authorized_user.json
+
+      - name: Build and Publish
+        run: |
+          flet publish main.py --base-url /${{ github.event.repository.name }}/
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
