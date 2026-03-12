@@ -62,7 +62,7 @@ def main(page: ft.Page):
              if menu_container.controls[0].data:
                 menu_container.controls[0].data()
         page.update()
-        
+
     # --- 5. 追加ダイアログ ---
     new_task = ft.TextField(hint_text="何を買いますか？")
 
@@ -101,4 +101,5 @@ def main(page: ft.Page):
     page.update()
 
 if __name__ == "__main__":
-    ft.app(main)
+    # Web版として公開するための設定を追加（末尾にスラッシュが必要！）
+    ft.app(target=main, view=ft.AppView.WEB_BROWSER, assets_dir="assets")
