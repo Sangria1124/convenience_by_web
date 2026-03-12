@@ -9,7 +9,8 @@ def recipe_registration_view(conn):
 
     def save_clicked(e):
             if not name_input.value:
-                e.page.show_snack_bar(ft.SnackBar(ft.Text("料理名を入力してください")))
+                e._page.overlay.append(ft.SnackBar(ft.Text("料理名を入力してください"), open=True))
+                e._page.update()
                 return
             
             # データベースに保存
@@ -31,7 +32,8 @@ def recipe_registration_view(conn):
             url_input.update()
             # ----------------------------------------------
             
-            e.page.show_snack_bar(ft.SnackBar(ft.Text("料理マスターに登録しました！")))
+            e.page.overlay.append(ft.SnackBar(ft.Text("料理登録完了"), open=True))
+            e.page.update()
 
 
     return ft.Column([

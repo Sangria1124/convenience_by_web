@@ -43,6 +43,7 @@ def main(page: ft.Page):
     recipe_container = ft.Column(controls=[recipe_registration_view(conn)], visible=False)
 
     # --- 4. ナビゲーション切り替え ---
+# --- 4. ナビゲーション切り替え ---
     def on_nav_change(e):
         index = e.control.selected_index
         display_area.visible = (index == 0)
@@ -51,15 +52,17 @@ def main(page: ft.Page):
         calendar_container.visible = (index == 3)
         page.floating_action_button.visible = (index == 0)
 
+        # 【重要修正】 .load_data ではなく .data() を呼ぶ
         if index == 3:
-            if hasattr(calendar_container.controls[0], "load_data"):
-                calendar_container.controls[0].load_data()
+            if calendar_container.controls[0].data:
+                calendar_container.controls[0].data() 
         
+        # 【重要修正】 .refresh_recipes ではなく .data() を呼ぶ
         if index == 1:
-             if hasattr(menu_container.controls[0], "refresh_recipes"):
-                menu_container.controls[0].refresh_recipes()
+             if menu_container.controls[0].data:
+                menu_container.controls[0].data()
         page.update()
-
+        
     # --- 5. 追加ダイアログ ---
     new_task = ft.TextField(hint_text="何を買いますか？")
 
