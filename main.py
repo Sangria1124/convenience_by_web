@@ -103,3 +103,5 @@ def main(page: ft.Page):
 if __name__ == "__main__":
     # Web版として公開するための設定を追加（末尾にスラッシュが必要！）
     ft.app(target=main, view=ft.AppView.WEB_BROWSER, assets_dir="assets")
+
+    #changeyhou
